@@ -8,7 +8,7 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-  name: "KodeKloudCustomer"
+  name: "mypool"
 
 steps:
 - task: UseDotNet@2
@@ -29,26 +29,3 @@ steps:
 - script: dotnet test --no-build --verbosity normal
   displayName: 'Run tests'
 
-- script: md "$(Build.ArtifactStagingDirectory)/wiki"
-  displayName: 'Create wiki directory'
-
-- task: XplatGenerateReleaseNotes@4
-  inputs:
-    outputfile: '$(Build.ArtifactStagingDirectory)\wiki\releasenotes.md'
-    templateLocation: 'InLine'
-    inlinetemplate: |
-      ## Build {{buildDetails.buildNumber}}
-      * **Branch**: {{buildDetails.sourceBranch}}
-      * **Tags**: {{buildDetails.tags}}
-      * **Completed**: {{buildDetails.finishTime}}
-      * **Previous Build**: {{compareBuildDetails.buildNumber}}
-    dumpPayloadToConsole: false
-    dumpPayloadToFile: True
-    replaceFile: True
-    getParentsAndChildren: False
-    getAllParents: False
-    getIndirectPullRequests: False
-    stopOnError: False
-    considerPartiallySuccessfulReleases: False
-    checkForManuallyLinkedWI: False
-    wiqlFromTarget: 'WorkItems'
